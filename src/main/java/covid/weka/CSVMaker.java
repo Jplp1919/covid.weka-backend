@@ -3,22 +3,24 @@ package covid.weka;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CSVMaker {
     // Método que converte dados de uma tabela SQL para um arquivo CSV.
-    public void sqlToCSV(String filename, Connection con) {
+    public void sqlToCSV(String filename, Connection con, int id) {
         // Tenta executar o processo de conversão de SQL para CSV.
         try {
             // Cria um objeto Statement para poder executar consultas SQL.
             Statement statement = con.createStatement();
             // Cria um FileWriter para escrever os dados em um arquivo CSV, utilizando o nome fornecido.
             FileWriter fw = new FileWriter(filename + ".csv");
-
-            // Executa uma consulta SQL para obter todos os dados da tabela 'pessoa'.
-            ResultSet rs = statement.executeQuery("SELECT * FROM pessoa");
+            String sql = "SELECT * FROM pessoa WHERE id = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
             // Obtém o número de colunas do ResultSet.
             int cols = rs.getMetaData().getColumnCount();
 

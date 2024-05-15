@@ -15,13 +15,13 @@ import weka.core.converters.ArffLoader;
 @Service
 public class PredictService {
     // Método para realizar predição usando modelo de RNA (Rede Neural Artificial)
-    public String[] predict(Connection con) throws Exception {
+    public String[] predict(Connection con, int id) throws Exception {
         // Cria uma instância de CSVMaker para converter dados SQL em CSV.
         CSVMaker csvMaker = new CSVMaker();
         // Define o nome do arquivo onde os dados CSV serão salvos.
         String filename = System.getProperty("user.dir") + "/person";
         // Executa a conversão de SQL para CSV.
-        csvMaker.sqlToCSV(filename, con);
+        csvMaker.sqlToCSV(filename, con, id);
 
         // Cria uma instância de ArffMaker para converter CSV em ARFF (formato aceito pelo Weka).
         ArffMaker arffMaker = new ArffMaker();
